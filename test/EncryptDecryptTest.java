@@ -1,41 +1,43 @@
 import org.hyperskill.hstest.stage.StageTest;
-import org.hyperskill.hstest.testcase.CheckResult;
-import org.hyperskill.hstest.testcase.TestCase;
+import org.hyperskill.hstest.testcase.SimpleTestCase;
 
 import java.util.List;
 
-public class EncryptDecryptTest extends StageTest<String> {
+public class EncryptDecryptTest extends StageTest {
 
     @Override
-    public List<TestCase<String>> generate() {
+    public List<SimpleTestCase> generate() {
         return List.of(
-            new TestCase<String>().setAttach("dv ulfmw z givzhfiv!")
+            new SimpleTestCase(
+                "enc\n" +
+                    "Welcome to hyperskill!\n" +
+                    "5",
+                "\\jqhtrj%yt%m~ujwxpnqq&"),
+            new SimpleTestCase(
+                "enc\n" +
+                    "Hello\n" +
+                    "0",
+                "Hello"),
+            new SimpleTestCase(
+                "enc\n" +
+                    "012345678\n" +
+                    "1",
+                "123456789"),
+            new SimpleTestCase(
+                "dec\n" +
+                    "\\jqhtrj%yt%m~ujwxpnqq&\n" +
+                    "5",
+                "Welcome to hyperskill!"),
+            new SimpleTestCase(
+                "dec\n" +
+                    "Hello\n" +
+                    "0",
+                "Hello"),
+            new SimpleTestCase(
+                "dec\n" +
+                    "222233334444\n" +
+                    "1",
+                "111122223333")
         );
-    }
-
-    @Override
-    public CheckResult check(String reply, String clue) {
-        reply = reply.trim();
-        clue = clue.trim();
-        boolean isCorrect = reply.trim().equals(clue.trim());
-        if (isCorrect) {
-            return CheckResult.correct();
-        }
-        if (reply.length() != clue.length()) {
-            return CheckResult.wrong(
-                "You should output a line with length " +
-                clue.length() + ". " + "You output a " +
-                "line with length " + reply.length()
-            );
-        }
-        for (int i = 0; i < clue.length(); i++) {
-            if (reply.charAt(i) != clue.charAt(i)) {
-                return CheckResult.wrong(
-                    "Your " + (i+1) + "-th character '" + reply.charAt(i) + "'" +
-                    " is incorrect. The right one is '" + clue.charAt(i) + "'"
-                );
-            }
-        }
-        return CheckResult.correct();
     }
 }
