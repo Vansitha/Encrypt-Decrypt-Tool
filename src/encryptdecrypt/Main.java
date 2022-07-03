@@ -1,34 +1,87 @@
 package encryptdecrypt;
 
+import java.io.*;
+
 public class Main {
 
-    private static final int MAX_ACCEPTED_ARGS = 6;
+    private static final int MAX_ACCEPTED_ARGS = 10;
     private static final char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     private static final String ARG_MODE = "-mode";
     private static final String ARG_KEY = "-key";
     private static  final String ARG_DATA = "-data";
     private static final String MODE_ENCRYPT = "enc";
     private static final String MODE_DECRYPT = "dec";
+    private static  final String ARG_IN = "-in";
+    private static final String ARG_OUT = "-out";
 
     public static void main(String[] args) {
 
         String mode = "enc";
         int key = 0;
-        String data = "";
+        String data, inputFile, outputFile;
+        data = inputFile = outputFile = "";
 
-        for (int i = 0; i < args.length; i++) {
-            if (ARG_MODE.equals(args[i]))
-                mode = args[i + 1];
-            if (ARG_KEY.equals(args[i]))
-                key = Integer.parseInt(args[i + 1]);
-            if (ARG_DATA.equals(args[i]))
-                data = args[i + 1];
+        // get and validate command line arguments
+       if (!(args.length > MAX_ACCEPTED_ARGS)) {
+           for (int i = 0; i < args.length; i++) {
+               if (ARG_MODE.equals(args[i]))
+                   mode = args[i + 1];
+               if (ARG_KEY.equals(args[i]))
+                   key = Integer.parseInt(args[i + 1]);
+               if (ARG_DATA.equals(args[i]))
+                   data = args[i + 1];
+               if (ARG_IN.equals(args[i]) & data.isBlank())
+                   inputFile = args[i + 1];
+               if (ARG_OUT.equals(args[i]))
+                   outputFile = args[i + 1];
+           }
+       }
+
+       // extract data from input file
+        if (!inputFile.isBlank()) {
+            data = readFile(inputFile);
         }
 
+
+        // process the message string
+       String outputMessage = "";
         if (mode.equals(MODE_ENCRYPT))
-            System.out.println(encryptMessage(data, key));
+            outputMessage = encryptMessage(data, key);
         if (mode.equals(MODE_DECRYPT))
-            System.out.println(decryptMessage(data, key));
+            outputMessage = decryptMessage(data, key);
+
+        // output processed message
+        if (!outputFile.isBlank())
+            writeToFile(outputFile, outputMessage);
+        else
+            System.out.println(outputMessage);
+    }
+
+    public static String readFile(String inputFileName) {
+        String dataString = "";
+        try {
+            File file = new File(inputFileName);
+            FileReader reader = new FileReader(file);
+            BufferedReader buffReader = new BufferedReader(reader);
+            dataString = buffReader.readLine();
+            reader.close();
+
+        } catch (IOException e) {
+            System.out.printf("ERROR: cannot read file %s", e.getMessage());
+        }
+        return dataString;
+    }
+
+    public static void writeToFile(String filename, String message) {
+        try {
+            var file = new File(filename);
+            var writer = new FileWriter(file);
+            writer.write(message);
+            writer.close();
+
+        } catch (IOException e) {
+            System.out.printf("Error: cannot write to file %s", e.getMessage());
+        }
     }
 
     /**
@@ -39,7 +92,7 @@ public class Main {
      * @param message string containing a message to be encrypted
      * @return new shuffled string
      */
-    public static String replaceLetters(String message) {
+    public static String shiftLetters(String message) {
         int totalIndices = alphabet.length - 1;
         var encryptedStr = new StringBuilder();
 
@@ -83,8 +136,8 @@ public class Main {
                         if (!(j + key > alphabet.length - 1))
                             encryptedStr.append(alphabet[j + key]);
                         else {
-                            int newCharval = charInMessage + key;
-                            encryptedStr.append((char) newCharval);
+                            int newCharVal = charInMessage + key;
+                            encryptedStr.append((char) newCharVal);
                         }
                     }
                 }
@@ -110,8 +163,8 @@ public class Main {
                         if (!(j + key > alphabet.length - 1))
                             decryptedString.append(alphabet[j - key]);
                         else {
-                            int newCharval = charInMessage - key;
-                            decryptedString.append((char) newCharval);
+                            int newCharVal = charInMessage - key;
+                            decryptedString.append((char) newCharVal);
                         }
                     }
                 }
