@@ -1,6 +1,6 @@
 package encryptdecrypt;
 
-public interface EncryptionAlgo {
+public interface Encryption {
 
     char[] ALPHABET = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     String encrypt(String message);

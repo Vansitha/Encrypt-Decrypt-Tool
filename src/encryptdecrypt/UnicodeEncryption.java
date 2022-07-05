@@ -1,13 +1,21 @@
 package encryptdecrypt;
 
-public class UnicodeAlgo implements  EncryptionAlgo {
+public class UnicodeEncryption implements  Encryption {
 
     private int key;
 
-    UnicodeAlgo(int key) {
+    UnicodeEncryption(int key) {
         this.key = key;
     }
 
+    /**
+     * Shifts the letters in a given string by the supplied key
+     *
+     * @param message - message to be encrypted
+     * @param key - the number that each letter needs to shifted and replaced
+     * @return new encrypted string where the letters have been shifted
+     * according the given key
+     */
     @Override
     public String encrypt(String message) {
         var encryptedStr = new StringBuilder();
