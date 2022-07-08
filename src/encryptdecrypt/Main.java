@@ -30,7 +30,8 @@ public class Main {
 
        // extract data from input file
         if (!inputFile.isBlank()) {
-            data = readFile(inputFile);
+            return;
+            //data = readFile(inputFile);
         }
 
         // process the message string
@@ -53,35 +54,9 @@ public class Main {
 
         // output processed message
         if (!outputFile.isBlank())
-            writeToFile(outputFile, outputMessage);
+            return;
+            //writeToFile(outputFile, outputMessage);
         else
             System.out.println(outputMessage);
-    }
-
-    public static String readFile(String inputFileName) {
-        String dataString = "";
-        try {
-            File file = new File(inputFileName);
-            FileReader reader = new FileReader(file);
-            BufferedReader buffReader = new BufferedReader(reader);
-            dataString = buffReader.readLine();
-            reader.close();
-
-        } catch (IOException e) {
-            System.out.printf("ERROR: cannot read file %s", e.getMessage());
-        }
-        return dataString;
-    }
-
-    public static void writeToFile(String filename, String message) {
-        try {
-            var file = new File(filename);
-            var writer = new FileWriter(file);
-            writer.write(message);
-            writer.close();
-
-        } catch (IOException e) {
-            System.out.printf("Error: cannot write to file %s", e.getMessage());
-        }
     }
 }
