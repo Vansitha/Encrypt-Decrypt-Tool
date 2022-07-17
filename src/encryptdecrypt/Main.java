@@ -1,14 +1,12 @@
 package encryptdecrypt;
 
-import java.io.*;
-
 public class Main {
     public static void main(String[] args) {
         String mode = CmdModes.MODE_ENCRYPT;
         int key = 0;
         String data, inputFile, outputFile;
         data = inputFile = outputFile = "";
-        String encryptionAlg = CmdModes.MODE_SHIFT;
+        String encryptionType = CmdModes.MODE_SHIFT;
 
         // get and validate command line arguments
        if (!(args.length > CmdModes.MAX_ACCEPTED_ARGS)) {
@@ -24,7 +22,7 @@ public class Main {
                if (CmdModes.ARG_OUT.equals(args[i]))
                    outputFile = args[i + 1];
                if (CmdModes.ARG_ALG.equals(args[i]))
-                   encryptionAlg = args[i + 1];
+                   encryptionType = args[i + 1];
            }
        }
 
@@ -35,22 +33,14 @@ public class Main {
         }
 
         // process the message string
-       String outputMessage = "";
-        if (encryptionAlg.equals(CmdModes.MODE_UNICODE)) {
-            Encryption algo = new UnicodeEncryption(key);
-            if (mode.equals(CmdModes.MODE_ENCRYPT))
-                outputMessage = algo.encrypt(data);
-            if (mode.equals(CmdModes.MODE_DECRYPT))
-                outputMessage = algo.decrypt(data);
-        }
+        var encryptionAlgorithm = new EncryptionFactory()
+                                            .getEncryptionAlgorithm(encryptionType, key);
+        String outputMessage = "";
 
-        if (encryptionAlg.equals(CmdModes.MODE_SHIFT)) {
-            Encryption algo = new ShiftEncryption(key);
-            if (mode.equals(CmdModes.MODE_ENCRYPT))
-                outputMessage = algo.encrypt(data);
-            if (mode.equals(CmdModes.MODE_DECRYPT))
-                outputMessage = algo.decrypt(data);
-        }
+        if (mode.equals(CmdModes.MODE_ENCRYPT))
+            outputMessage = encryptionAlgorithm.encrypt(data);
+        if (mode.equals(CmdModes.MODE_DECRYPT))
+            outputMessage = encryptionAlgorithm.decrypt(data);
 
         // output processed message
         if (!outputFile.isBlank())
