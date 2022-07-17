@@ -3,7 +3,7 @@ package encryptdecrypt;
 public final class CmdModes {
     public static final int MAX_ACCEPTED_ARGS = 10;
     public static final String ARG_MODE = "-mode";
-    public static final String ARG_KEY = "-key";
+    public static  final String ARG_KEY = "-key";
     public static  final String ARG_DATA = "-data";
     public static  final String ARG_IN = "-in";
     public static final String ARG_OUT = "-out";

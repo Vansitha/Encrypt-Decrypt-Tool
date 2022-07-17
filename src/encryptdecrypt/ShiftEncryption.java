@@ -1,6 +1,6 @@
 package encryptdecrypt;
 
-public class ShiftEncryption implements Encryption {
+public class ShiftEncryption implements IEncryption {
 
     private int key;
 
@@ -34,7 +34,7 @@ public class ShiftEncryption implements Encryption {
                             encryptedStr.append(ALPHABET[newIndex]);
                         }
                     }
-               }
+                }
             }
             else {
                 encryptedStr.append(charInMessage);
@@ -80,13 +80,11 @@ public class ShiftEncryption implements Encryption {
 
     public int calcNewIndex(int key, int currIndex) {
         int overflow = currIndex + 1 + key;
-        int newIndex =  overflow - ALPHABET.length - 1; // -1 because array is 0 index
-        return newIndex;
+        return overflow - ALPHABET.length - 1;
     }
 
     public int calcOriginalIndex(int key, int currIndex) {
         int previousOverFlow = currIndex + ALPHABET.length;
-        int originalIndex = Math.abs(previousOverFlow - key);
-        return originalIndex;
+        return Math.abs(previousOverFlow - key);
     }
 }

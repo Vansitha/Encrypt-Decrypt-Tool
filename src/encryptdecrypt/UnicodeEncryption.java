@@ -1,6 +1,6 @@
 package encryptdecrypt;
 
-public class UnicodeEncryption implements  Encryption {
+public class UnicodeEncryption implements IEncryption {
 
     private int key;
 
@@ -12,7 +12,6 @@ public class UnicodeEncryption implements  Encryption {
      * Shifts the letters in a given string by the supplied key
      *
      * @param message - message to be encrypted
-     * @param key - the number that each letter needs to shifted and replaced
      * @return new encrypted string where the letters have been shifted
      * according the given key
      */
