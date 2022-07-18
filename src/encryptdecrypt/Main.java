@@ -1,45 +1,41 @@
 package encryptdecrypt;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
 
+        // get the arguments
+        HashMap<String, String> arguments = extractArguments(args);
+
+        // Extract data
+        // now check whether data flag or in flag is set
+        // if both set use data flag
+        // extract the data
+        // if both are null exit display error message
+
+        //run the encryption algorithm
+
+        //output the results
+
+    }
+
+    public static HashMap<String, String> extractArguments(String[] args) {
+
         HashMap<String, String> arguments = new HashMap<>();
-        String data, inputFile, outputFile;
-        data = inputFile = outputFile = "";
+        arguments.put("-mode", "enc");
+        arguments.put("-key", "0");
+        arguments.put("-alg", "");
+        arguments.put("-in", "");
+        arguments.put("-out", "");
+        arguments.put("-data", "");
 
-        for(int i = 0; i < args.length; i++) {
+        for (int i = 0; i < args.length; i++) {
             String key = args[i];
-            String value = args[i + 1];
-            arguments.put(key, value);
+            if (arguments.containsKey(key))
+                arguments.put(key, args[i + 1]);
         }
 
-        String mode = arguments.getOrDefault("-mode", "enc");
-        int key = Integer.parseInt(arguments.getOrDefault("-key", "0"));
-        String encryptionType = arguments.getOrDefault("-alg", "shift");
-
-       // extract data from input file
-        if (!inputFile.isBlank()) {
-            IFileOperations fIleOperationsObj = new FIleOperations();
-            ArrayList<String> messageListToEncrypt = fIleOperationsObj.readFile(inputFile);
-        }
-
-        String outputMessage = "";
-        // process the message string
-        IEncryption encryptionAlgorithm = new EncryptionFactory()
-                                            .getEncryptionAlgorithm(encryptionType, key);
-        if (mode.equals("enc"))
-            outputMessage = encryptionAlgorithm.encrypt(data);
-        if (mode.equals("dec"))
-            outputMessage = encryptionAlgorithm.decrypt(data);
-
-        // output processed message
-        if (!outputFile.isBlank())
-            return;
-            //writeToFile(outputFile, outputMessage);
-        else
-            System.out.println(outputMessage);
+        return arguments;
     }
 }
