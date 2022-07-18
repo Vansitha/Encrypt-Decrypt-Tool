@@ -16,13 +16,5 @@ class UnicodeEncryptionTest {
 
     }
 
-    @Test
-    void testCalcNewIndex() {
 
-    }
-
-    @Test
-    void testCalcOriginalIndex() {
-
-    }
 }

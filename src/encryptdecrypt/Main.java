@@ -1,45 +1,38 @@
 package encryptdecrypt;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Main {
     public static void main(String[] args) {
-        String mode = CmdModes.MODE_ENCRYPT;
-        int key = 0;
+
+        HashMap<String, String> arguments = new HashMap<>();
         String data, inputFile, outputFile;
         data = inputFile = outputFile = "";
-        String encryptionType = CmdModes.MODE_SHIFT;
 
-        // get and validate command line arguments
-       if (!(args.length > CmdModes.MAX_ACCEPTED_ARGS)) {
-           for (int i = 0; i < args.length; i++) {
-               if (CmdModes.ARG_MODE.equals(args[i]))
-                   mode = args[i + 1];
-               if (CmdModes.ARG_KEY.equals(args[i]))
-                   key = Integer.parseInt(args[i + 1]);
-               if (CmdModes.ARG_DATA.equals(args[i]))
-                   data = args[i + 1];
-               if (CmdModes.ARG_IN.equals(args[i]) & data.isBlank())
-                   inputFile = args[i + 1];
-               if (CmdModes.ARG_OUT.equals(args[i]))
-                   outputFile = args[i + 1];
-               if (CmdModes.ARG_ALG.equals(args[i]))
-                   encryptionType = args[i + 1];
-           }
-       }
+        for(int i = 0; i < args.length; i++) {
+            String key = args[i];
+            String value = args[i + 1];
+            arguments.put(key, value);
+        }
+
+        String mode = arguments.getOrDefault("-mode", "enc");
+        int key = Integer.parseInt(arguments.getOrDefault("-key", "0"));
+        String encryptionType = arguments.getOrDefault("-alg", "shift");
 
        // extract data from input file
         if (!inputFile.isBlank()) {
-            return;
-            //data = readFile(inputFile);
+            IFileOperations fIleOperationsObj = new FIleOperations();
+            ArrayList<String> messageListToEncrypt = fIleOperationsObj.readFile(inputFile);
         }
 
-        // process the message string
-        var encryptionAlgorithm = new EncryptionFactory()
-                                            .getEncryptionAlgorithm(encryptionType, key);
         String outputMessage = "";
-
-        if (mode.equals(CmdModes.MODE_ENCRYPT))
+        // process the message string
+        IEncryption encryptionAlgorithm = new EncryptionFactory()
+                                            .getEncryptionAlgorithm(encryptionType, key);
+        if (mode.equals("enc"))
             outputMessage = encryptionAlgorithm.encrypt(data);
-        if (mode.equals(CmdModes.MODE_DECRYPT))
+        if (mode.equals("dec"))
             outputMessage = encryptionAlgorithm.decrypt(data);
 
         // output processed message

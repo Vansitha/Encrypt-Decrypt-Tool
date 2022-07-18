@@ -7,23 +7,27 @@ public class FIleOperations implements IFileOperations {
 
     @Override
     public ArrayList<String> readFile(String filename) {
-        String dataString = "";
+        ArrayList<String> dataList = new ArrayList<>();
         try {
-            File file = new File(filename);
-            FileReader reader = new FileReader(file);
-            BufferedReader buffReader = new BufferedReader(reader);
-            dataString = buffReader.readLine();
+            // use a loop and insert each item into the file.
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String dataString = reader.readLine();
+            while (dataString != null) {
+                dataList.add(dataString);
+                dataString = reader.readLine();
+            }
             reader.close();
 
         } catch (IOException e) {
             System.out.printf("ERROR: cannot read file %s", e.getMessage());
         }
-        return null;
+        return dataList;
     }
 
     @Override
     public void writeToFile(String filename, ArrayList<String> encodedMessages) {
         try {
+            // loop through the array list and insert each encrypted string to the file
             var file = new File(filename);
             var writer = new FileWriter(file);
             String message = "";

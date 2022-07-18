@@ -1,19 +1,28 @@
 package encryptdecrypt;
 
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ShiftEncryptionTest {
 
     @Test
-    void encryptedMessage() {
+    void encryptShouldReturnEncryptedString() {
+
 
     }
 
     @Test
-    void decryptMessage() {
+    void decryptShouldReturnDecryptedString() {
 
     }
 
+    @Test
+    void testCalcNewIndex() {
+
+    }
+
+    @Test
+    void testCalcOriginalIndex() {
+
+    }
 }
