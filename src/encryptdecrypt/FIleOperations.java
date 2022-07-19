@@ -2,12 +2,13 @@ package encryptdecrypt;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FIleOperations implements IFileOperations {
 
     @Override
-    public ArrayList<String> readFile(String filename) {
-        ArrayList<String> dataList = new ArrayList<>();
+    public List<String> readFile(String filename) {
+        List<String> dataList = new ArrayList<>();
         try {
             // use a loop and insert each item into the file.
             BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -25,13 +26,14 @@ public class FIleOperations implements IFileOperations {
     }
 
     @Override
-    public void writeToFile(String filename, ArrayList<String> encodedMessages) {
+    public void writeToFile(String filename, List<String> encodedMessages) {
         try {
             // loop through the array list and insert each encrypted string to the file
             var file = new File(filename);
             var writer = new FileWriter(file);
-            String message = "";
-            writer.write(message);
+            for (String message : encodedMessages) {
+                writer.write(message + "\n");
+            }
             writer.close();
 
         } catch (IOException e) {

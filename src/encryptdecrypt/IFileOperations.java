@@ -1,8 +1,8 @@
 package encryptdecrypt;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IFileOperations {
-    ArrayList<String> readFile(String filename);
-    void writeToFile(String filename, ArrayList<String> encodedMessages);
+    List<String> readFile(String filename);
+    void writeToFile(String filename, List<String> encodedMessages);
 }
