@@ -2,7 +2,7 @@ package encryptdecrypt;
 
 public class ShiftEncryption implements IEncryption {
 
-    private int key;
+    private final int key;
 
     ShiftEncryption(int key) {
         this.key = key;
@@ -10,6 +10,7 @@ public class ShiftEncryption implements IEncryption {
 
     @Override
     public String encrypt(String message) {
+
         var encryptedStr = new StringBuilder();
 
         // looping through the message
@@ -45,6 +46,7 @@ public class ShiftEncryption implements IEncryption {
 
     @Override
     public String decrypt(String message) {
+
         var encryptedStr = new StringBuilder();
 
         // looping through the message
@@ -79,11 +81,13 @@ public class ShiftEncryption implements IEncryption {
     }
 
     public int calcNewIndex(int key, int currIndex) {
+
         int overflow = currIndex + 1 + key;
         return overflow - ALPHABET.length - 1;
     }
 
     public int calcOriginalIndex(int key, int currIndex) {
+
         int previousOverFlow = currIndex + ALPHABET.length;
         return Math.abs(previousOverFlow - key);
     }

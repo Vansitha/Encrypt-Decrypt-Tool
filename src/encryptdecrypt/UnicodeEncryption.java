@@ -2,7 +2,7 @@ package encryptdecrypt;
 
 public class UnicodeEncryption implements IEncryption {
 
-    private int key;
+    private final int key;
 
     UnicodeEncryption(int key) {
         this.key = key;
@@ -17,6 +17,7 @@ public class UnicodeEncryption implements IEncryption {
      */
     @Override
     public String encrypt(String message) {
+
         var encryptedStr = new StringBuilder();
 
         // looping through the message
@@ -45,6 +46,7 @@ public class UnicodeEncryption implements IEncryption {
 
     @Override
     public String decrypt(String message) {
+
         var decryptedString = new StringBuilder();
 
         // looping through the message
